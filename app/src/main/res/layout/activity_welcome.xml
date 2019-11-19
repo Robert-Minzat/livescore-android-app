@@ -7,7 +7,7 @@
     tools:context=".WelcomeActivity">
 
     <TextView
-        android:id="@+id/tvLivescore"
+        android:id="@+id/tvWelcomeLivescore"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:includeFontPadding="false"
@@ -31,7 +31,7 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLivescore" />
+        app:layout_constraintTop_toBottomOf="@+id/tvWelcomeLivescore" />
 
     <Button
         android:id="@+id/btnLogin"
@@ -71,16 +71,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:paddingStart="4dp"
+            android:paddingEnd="0dp"
             android:text="@string/register"
             android:textColor="@color/colorPrimary" />
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivWelcomeLogo"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginBottom="42dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvLivescore"
+        android:contentDescription="@string/application_logo"
+        app:layout_constraintBottom_toBottomOf="@+id/tvWelcomeLivescore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/logo" />

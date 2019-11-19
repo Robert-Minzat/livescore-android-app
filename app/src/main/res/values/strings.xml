@@ -8,4 +8,10 @@
     <string name="home">Home</string>
     <string name="nav_drawer_open">open nav drawer</string>
     <string name="nav_drawer_close">close nav drawer</string>
+    <string name="minzat_marian_robert">Minzat Marian Robert</string>
+    <string name="grupa_1080_seria_d">Grupa 1080, Seria D</string>
+    <string name="application_logo">application logo</string>
+    <string name="version_1_0">version 1.0</string>
+    <string name="year_2019">© 2019</string>
+    <string name="dam">DAM</string>
 </resources>

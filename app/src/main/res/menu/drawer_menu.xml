@@ -10,15 +10,15 @@
             android:icon="@drawable/ic_home"
             android:title="@string/home" />
         <item
-            android:id="@+id/nav_home2"
+            android:id="@+id/nav_matches"
             android:icon="@drawable/ic_matches"
             android:title="Matches" />
         <item
-            android:id="@+id/nav_home3"
+            android:id="@+id/nav_favorites"
             android:icon="@drawable/ic_favorites"
             android:title="Favorites" />
         <item
-            android:id="@+id/nav_home4"
+            android:id="@+id/nav_standings"
             android:icon="@drawable/ic_standings"
             android:title="Standings" />
     </group>
