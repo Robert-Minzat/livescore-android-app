@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Livescore</string>
+    <string name="livescore">Livescore</string>
+    <string name="welcome">Welcome</string>
+    <string name="login">Login</string>
+    <string name="welcome_reg_text">New to livescore?</string>
+    <string name="register">Register</string>
+    <string name="home">Home</string>
+    <string name="nav_drawer_open">open nav drawer</string>
+    <string name="nav_drawer_close">close nav drawer</string>
+</resources>

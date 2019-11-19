@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group
+        android:id="@+id/nav_main_section"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/nav_home2"
+            android:icon="@drawable/ic_matches"
+            android:title="Matches" />
+        <item
+            android:id="@+id/nav_home3"
+            android:icon="@drawable/ic_favorites"
+            android:title="Favorites" />
+        <item
+            android:id="@+id/nav_home4"
+            android:icon="@drawable/ic_standings"
+            android:title="Standings" />
+    </group>
+    <group
+        android:id="@+id/nav_secondary_section"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_info"
+            android:title="About" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout" />
+    </group>
+    <group android:checkableBehavior="single">
+
+    </group>
+</menu>
