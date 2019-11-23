@@ -9,15 +9,24 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WelcomeActivity"
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.LoginActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.WelcomeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionbar"></activity>
+        <activity
+            android:name=".activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionbar" />
     </application>
 
 </manifest>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WelcomeActivity">
+    tools:context=".activities.WelcomeActivity">
 
     <TextView
         android:id="@+id/tvWelcomeLivescore"
@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvWelcomeLivescore" />
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/welcomeActivity_btnLogin"
         android:layout_width="@android:dimen/thumbnail_width"
         android:layout_height="36dp"
         android:background="@drawable/btn_bg_rounded"
@@ -55,7 +55,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin">
+        app:layout_constraintTop_toBottomOf="@+id/welcomeActivity_btnLogin">
 
         <TextView
             android:id="@+id/tvWRegText"
@@ -66,7 +66,7 @@
             android:textAlignment="center" />
 
         <TextView
-            android:id="@+id/tvRegister"
+            android:id="@+id/welcomeActivity_tvRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

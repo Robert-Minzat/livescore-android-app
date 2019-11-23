@@ -1,4 +1,7 @@
 <resources>
+    <string name="api_key">5f95c371b01c488dbf7cc07c8b58976d</string>
+    <string name="login_preference">com.example.livescoreproject_login_preference</string>
+    <string name="login_userid_preference">com.example.livescoreproject_login_userid_preference</string>
     <string name="app_name">Livescore</string>
     <string name="livescore">Livescore</string>
     <string name="welcome">Welcome</string>
@@ -14,4 +17,8 @@
     <string name="version_1_0">version 1.0</string>
     <string name="year_2019">© 2019</string>
     <string name="dam">DAM</string>
+    <string name="temp_username">user</string>
+    <string name="temp_password">pass</string>
+    <string name="temp_email">test@test.com</string>
+    <string name="temp_userId">1</string>
 </resources>

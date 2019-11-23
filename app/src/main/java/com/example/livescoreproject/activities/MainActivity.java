@@ -1,7 +1,5 @@
-package com.example.livescoreproject;
+package com.example.livescoreproject.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,10 +7,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.livescoreproject.R;
+import com.example.livescoreproject.classes.SharedPreferencesConfig;
+import com.example.livescoreproject.classes.User;
 import com.example.livescoreproject.fragments.AboutFragment;
 import com.example.livescoreproject.fragments.FavoritesFragment;
 import com.example.livescoreproject.fragments.HomeFragment;
@@ -23,15 +25,32 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private SharedPreferencesConfig sharedPreferences;
+    private int userId;
+    private long backPressedTime;
+    private Toast backToast;
+
+    private TextView tvUsername, tvEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // get sharedpreferences
+        sharedPreferences = new SharedPreferencesConfig(this);
+
+        // preluare id user logat
+        userId = sharedPreferences.readLoginId();
+
+        // TODO faza2: request in baza de date pe baza id-ului de user, preluarea informatiilor si crearea unei instante
+        // TODO a clasei User
+        User user = new User(getString(R.string.temp_username), getString(R.string.temp_email));
+
         // configurare navigation view
         navigationView = findViewById(R.id.nav_view);
-        configNavigation();
+        configNavigation(user);
+
 
         // setare fragment home ca fragment inital
         // fiind in onCreate, verificam daca exista savedInstanceState ca sa nu inlocuiasca alt fragment la
@@ -41,18 +60,9 @@ public class MainActivity extends AppCompatActivity {
                     new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
-
-        // Afisare logo in toolbar
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayUseLogoEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
-            actionBar.setIcon(R.drawable.logo);
-            actionBar.setTitle(" " + getString(R.string.livescore));
-        }
     }
 
-    private void configNavigation() {
+    private void configNavigation(User user) {
         // setare toolbar navigation drawer
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
         drawerLayout.addDrawerListener(toggle);
+
+        // setare nume si email pentru userul logat
+        tvUsername = navigationView.getHeaderView(0).findViewById(R.id.nav_header_username);
+        tvEmail = navigationView.getHeaderView(0).findViewById(R.id.nav_header_email);
+        tvUsername.setText(user.getUsername());
+        tvEmail.setText(user.getEmail());
 
         // adaugare event de selectare item din navigation view
         navigationView.setNavigationItemSelectedListener((item) -> {
@@ -86,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
                             new AboutFragment()).commit();
                     break;
                 case R.id.nav_logout:
+                    sharedPreferences.writeLoginId(-1);
+                    startActivity(new Intent(this, WelcomeActivity.class));
                     finish();
                     break;
             }
@@ -94,16 +112,18 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+        // Afisare logo in toolbar
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayUseLogoEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setIcon(R.drawable.logo);
+            actionBar.setTitle(" " + getString(R.string.livescore));
+        }
+
         // sincronizare stare toggle cu drawer
         toggle.syncState();
 
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        return true;
     }
 
     @Override
@@ -112,8 +132,16 @@ public class MainActivity extends AppCompatActivity {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            // altfel, comportament default
-            super.onBackPressed();
+            // daca utilizatorul apasa back de 2 ori consecutiv(intr-un interval de 2 secunde), iesire din aplicatie
+            if(backPressedTime + 2000 > System.currentTimeMillis()) {
+                backToast.cancel();
+                finish();
+            } else {
+                backToast = Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT);
+                backToast.show();
+            }
+
+            backPressedTime = System.currentTimeMillis();
         }
     }
 }
