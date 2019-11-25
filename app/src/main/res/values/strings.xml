@@ -1,5 +1,6 @@
 <resources>
     <string name="api_key">5f95c371b01c488dbf7cc07c8b58976d</string>
+    <string name="api_matches_link">https://api.football-data.org/v2/matches</string>
     <string name="login_preference">com.example.livescoreproject_login_preference</string>
     <string name="login_userid_preference">com.example.livescoreproject_login_userid_preference</string>
     <string name="app_name">Livescore</string>
@@ -8,7 +9,7 @@
     <string name="login">Login</string>
     <string name="welcome_reg_text">New to livescore?</string>
     <string name="register">Register</string>
-    <string name="home">Home</string>
+    <string name="matches">Matches</string>
     <string name="nav_drawer_open">open nav drawer</string>
     <string name="nav_drawer_close">close nav drawer</string>
     <string name="minzat_marian_robert">Minzat Marian Robert</string>
@@ -21,4 +22,19 @@
     <string name="temp_password">pass</string>
     <string name="temp_email">test@test.com</string>
     <string name="temp_userId">1</string>
+    <string name="current_date">Current date</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="sex">Sex</string>
+    <string name="m">M</string>
+    <string name="f">F</string>
+    <string name="email">Email</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="matchtime">matchTime</string>
+    <string name="hometeam">homeTeam</string>
+    <string name="awayteam">awayTeam</string>
+    <string name="matchscore">matchScore</string>
+    <string name="about">About</string>
+    <string name="logout">Logout</string>
 </resources>

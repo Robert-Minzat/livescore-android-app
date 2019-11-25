@@ -58,7 +58,16 @@ public class LoginActivity extends AppCompatActivity {
         if(username.equals(getString(R.string.temp_username)) && password.equals(getString(R.string.temp_password))) {
             // se stocheaza o valoare temporara
             sharedPreferences.writeLoginId(Integer.parseInt(getString(R.string.temp_userId)));
-            startActivity(new Intent(this, MainActivity.class));
+            // deocamdata generam un dummy user
+            User user = new User(
+                    getString(R.string.temp_username),
+                    getString(R.string.temp_email),
+                    Integer.parseInt(getString(R.string.temp_userId))
+            );
+            Intent intent = new Intent(this, MainActivity.class);
+            // adaugare user in intent pentru a fi transmis mai departe
+            intent.putExtra("user", user);
+            startActivity(intent);
             finish();
         } else {
             etUsername.setText("");

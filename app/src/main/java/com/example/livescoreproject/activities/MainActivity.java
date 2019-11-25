@@ -16,10 +16,7 @@ import com.example.livescoreproject.R;
 import com.example.livescoreproject.classes.SharedPreferencesConfig;
 import com.example.livescoreproject.classes.User;
 import com.example.livescoreproject.fragments.AboutFragment;
-import com.example.livescoreproject.fragments.FavoritesFragment;
-import com.example.livescoreproject.fragments.HomeFragment;
 import com.example.livescoreproject.fragments.MatchesFragment;
-import com.example.livescoreproject.fragments.StandingsFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,25 +37,24 @@ public class MainActivity extends AppCompatActivity {
         // get sharedpreferences
         sharedPreferences = new SharedPreferencesConfig(this);
 
-        // preluare id user logat
-        userId = sharedPreferences.readLoginId();
+        // get intent
+        Intent intent = getIntent();
 
-        // TODO faza2: request in baza de date pe baza id-ului de user, preluarea informatiilor si crearea unei instante
-        // TODO a clasei User
-        User user = new User(getString(R.string.temp_username), getString(R.string.temp_email));
+        // get obiect user primit prin intent
+        User user = intent.getParcelableExtra("user");
 
         // configurare navigation view
         navigationView = findViewById(R.id.nav_view);
         configNavigation(user);
 
 
-        // setare fragment home ca fragment inital
+        // setare fragment matches ca fragment inital
         // fiind in onCreate, verificam daca exista savedInstanceState ca sa nu inlocuiasca alt fragment la
         // schimbarea orientarii ecranului, cand se apeleaza din nou onCreate
         if( savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new HomeFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_home);
+                    new MatchesFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_matches);
         }
     }
 
@@ -81,21 +77,9 @@ public class MainActivity extends AppCompatActivity {
         // adaugare event de selectare item din navigation view
         navigationView.setNavigationItemSelectedListener((item) -> {
             switch (item.getItemId()) {
-                case R.id.nav_home:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new HomeFragment()).commit();
-                    break;
                 case R.id.nav_matches:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             new MatchesFragment()).commit();
-                    break;
-                case R.id.nav_favorites:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new FavoritesFragment()).commit();
-                    break;
-                case R.id.nav_standings:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new StandingsFragment()).commit();
                     break;
                 case R.id.nav_about:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -135,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             // daca utilizatorul apasa back de 2 ori consecutiv(intr-un interval de 2 secunde), iesire din aplicatie
             if(backPressedTime + 2000 > System.currentTimeMillis()) {
                 backToast.cancel();
-                finish();
+                finishAffinity();
             } else {
                 backToast = Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT);
                 backToast.show();

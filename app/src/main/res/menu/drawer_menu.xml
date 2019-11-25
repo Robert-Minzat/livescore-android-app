@@ -6,21 +6,9 @@
         android:id="@+id/nav_main_section"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_home"
-            android:title="@string/home" />
-        <item
             android:id="@+id/nav_matches"
             android:icon="@drawable/ic_matches"
-            android:title="Matches" />
-        <item
-            android:id="@+id/nav_favorites"
-            android:icon="@drawable/ic_favorites"
-            android:title="Favorites" />
-        <item
-            android:id="@+id/nav_standings"
-            android:icon="@drawable/ic_standings"
-            android:title="Standings" />
+            android:title="@string/matches" />
     </group>
     <group
         android:id="@+id/nav_secondary_section"
@@ -28,11 +16,11 @@
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_info"
-            android:title="About" />
+            android:title="@string/about" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_logout"
-            android:title="Logout" />
+            android:title="@string/logout" />
     </group>
     <group android:checkableBehavior="single">
 

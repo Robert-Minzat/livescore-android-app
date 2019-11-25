@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/homeCurrentDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:text="@string/current_date"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/homeCurrentDate"
+        android:background="?android:attr/listDivider" />
+
+    <ProgressBar
+        android:id="@+id/homeLoader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/homeCurrentDate"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="32dp"
+        android:indeterminate="true" />
+
+    <ListView
+        android:id="@+id/listViewHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/homeCurrentDate" />
+
 </RelativeLayout>

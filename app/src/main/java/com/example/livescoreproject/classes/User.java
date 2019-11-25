@@ -6,10 +6,12 @@ import android.os.Parcelable;
 public class User implements Parcelable {
     private String username;
     private String email;
+    private int userId;
 
-    public User(String username, String email) {
+    public User(String username, String email, int userId) {
         this.username = username;
         this.email = email;
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -37,11 +39,13 @@ public class User implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.username);
         dest.writeString(this.email);
+        dest.writeInt(this.userId);
     }
 
     private User(Parcel in) {
         username = in.readString();
         email = in.readString();
+        userId = in.readInt();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
