@@ -10,12 +10,10 @@ public class Match {
     private int awayTeamId;
     private int homeTeamScore;
     private int awayTeamScore;
-    private int winner;
     private int competitionId;
-    private String competitionName;
     private Date date;
 
-    public Match(int matchId, String homeTeam, int homeTeamId, String awayTeam, int awayTeamId, int homeTeamScore, int awayTeamScore, int winner, int competitionId, String competitionName, Date date) {
+    public Match(int matchId, String homeTeam, int homeTeamId, String awayTeam, int awayTeamId, int homeTeamScore, int awayTeamScore, int competitionId, Date date) {
         this.matchId = matchId;
         this.homeTeam = homeTeam;
         this.homeTeamId = homeTeamId;
@@ -23,9 +21,7 @@ public class Match {
         this.awayTeamId = awayTeamId;
         this.homeTeamScore = homeTeamScore;
         this.awayTeamScore = awayTeamScore;
-        this.winner = winner;
         this.competitionId = competitionId;
-        this.competitionName = competitionName;
         this.date = date;
     }
 
@@ -91,22 +87,6 @@ public class Match {
 
     public void setCompetitionId(int competitionId) {
         this.competitionId = competitionId;
-    }
-
-    public String getCompetitionName() {
-        return competitionName;
-    }
-
-    public void setCompetitionName(String competitionName) {
-        this.competitionName = competitionName;
-    }
-
-    public int getWinner() {
-        return winner;
-    }
-
-    public void setWinner(int winner) {
-        this.winner = winner;
     }
 
     public Date getDate() {

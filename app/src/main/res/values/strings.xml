@@ -37,4 +37,5 @@
     <string name="matchscore">matchScore</string>
     <string name="about">About</string>
     <string name="logout">Logout</string>
+    <string name="no_intenet_connection">No intenet connection</string>
 </resources>

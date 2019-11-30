@@ -11,6 +11,7 @@ import com.example.livescoreproject.R;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class MatchAdapter extends BaseAdapter {
     private Context context;
@@ -53,11 +54,11 @@ public class MatchAdapter extends BaseAdapter {
         }
 
         Match  match = matches.get(position);
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
         viewHolder.tvTime.setText(sdf.format(match.getDate()));
         viewHolder.tvHometeam.setText(match.getHomeTeam());
         viewHolder.tvAwayteam.setText(match.getAwayTeam());
-        viewHolder.tvScore.setText(match.getHomeTeamScore() + "-" + match.getAwayTeamScore());
+        viewHolder.tvScore.setText(match.getHomeTeamScore() + " - " + match.getAwayTeamScore());
 
         return view;
     }
