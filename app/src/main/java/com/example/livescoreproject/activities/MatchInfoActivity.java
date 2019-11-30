@@ -11,6 +11,7 @@ import com.example.livescoreproject.R;
 import com.example.livescoreproject.classes.MatchInfo;
 import com.example.livescoreproject.classes.MatchRequest;
 
+import java.math.MathContext;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -54,24 +55,15 @@ public class MatchInfoActivity extends AppCompatActivity {
         tvAwayteamLosses = findViewById(R.id.tvInfoAtLosses);
 
         //request match
-        MatchRequest request = new MatchRequest(this) {
-            @Override
-            protected void onPostExecute(MatchInfo matchInfo) {
-                super.onPostExecute(matchInfo);
-                if(matchInfo != null) {
-                    populateFields(matchInfo);
-                }
-            }
-        };
         try {
             URL url = new URL(getString(R.string.api_matches_link) + "/" + matchId);
-            request.execute(url);
+            new MatchRequest(this).execute(url);
         } catch(Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void populateFields(MatchInfo matchInfo) {
+    public void populateFields(MatchInfo matchInfo) {
         tvCompetition.setText(matchInfo.getCompetitionName());
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM HH:mm", Locale.getDefault());
         tvMatchTime.setText(sdf.format(matchInfo.getMatchTime()));
@@ -94,4 +86,5 @@ public class MatchInfoActivity extends AppCompatActivity {
         finish();
         return true;
     }
+
 }

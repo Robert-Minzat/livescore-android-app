@@ -38,4 +38,5 @@
     <string name="about">About</string>
     <string name="logout">Logout</string>
     <string name="no_intenet_connection">No intenet connection</string>
+    <string name="network_unavailable">Network unavailable. Try again in 1 minute.</string>
 </resources>

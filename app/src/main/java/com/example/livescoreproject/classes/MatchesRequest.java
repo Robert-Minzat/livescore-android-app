@@ -1,16 +1,21 @@
 package com.example.livescoreproject.classes;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
 
 import com.example.livescoreproject.R;
+import com.example.livescoreproject.activities.MatchInfoActivity;
+import com.example.livescoreproject.fragments.MatchesFragment;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -20,24 +25,25 @@ import java.util.List;
 import java.util.Locale;
 
 public class MatchesRequest extends AsyncTask<URL, Void, List<Match>> {
+    private WeakReference<MatchesFragment> matchesFragmentWeakReference;
     private ArrayList<Match> raspuns = new ArrayList<>();
-    private Context context;
 
-    public MatchesRequest(Context context) {
-        this.context = context;
+    public MatchesRequest(MatchesFragment matchesFragment) {
+        matchesFragmentWeakReference = new WeakReference<>(matchesFragment);
     }
 
     @Override
     protected List<Match> doInBackground(URL... urls) {
         try {
-            StringBuffer s;
+            MatchesFragment matchesFragment = matchesFragmentWeakReference.get();
+            StringBuilder s;
             JSONObject responseObj, matchObj;
             Match matchToAdd;
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss", Locale.getDefault());
             for (URL url : urls) {
-                s = new StringBuffer();
+                s = new StringBuilder();
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestProperty("X-Auth-Token", context.getResources().getString(R.string.api_key));
+                conn.setRequestProperty("X-Auth-Token", matchesFragment.getResources().getString(R.string.api_key));
                 conn.connect();
                 if (conn.getResponseCode() == 200) {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -73,12 +79,46 @@ public class MatchesRequest extends AsyncTask<URL, Void, List<Match>> {
 
                         raspuns.add(matchToAdd);
                     }
+                } else {
+                    return null;
                 }
             }
+            return raspuns;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return raspuns;
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(List<Match> matches) {
+        super.onPostExecute(matches);
+        MatchesFragment matchesFragment = matchesFragmentWeakReference.get();
+
+        // ascundere loader
+        matchesFragment.getActivity().findViewById(R.id.homeLoader).setVisibility(View.GONE);
+
+        // ascundere mesaj unavailable network
+        matchesFragment.getActivity().findViewById(R.id.homeUnavailableNetwork).setVisibility(View.GONE);
+
+        ListView listView = matchesFragment.getActivity().findViewById(R.id.listViewHome);
+        if (matches != null) {
+            // initializare adapter personalizat
+            MatchAdapter adapter = new MatchAdapter(matchesFragment.getActivity().getApplicationContext(), matches);
+            // setare adapter listview
+            listView.setAdapter(adapter);
+
+            // setare event de click pe listview item
+            listView.setOnItemClickListener((parent, view, position, id) -> {
+                Match itemClicked = (Match) parent.getItemAtPosition(position);
+                Intent intent = new Intent(matchesFragment.getActivity(), MatchInfoActivity.class);
+                intent.putExtra("matchId", itemClicked.getMatchId());
+                matchesFragment.startActivity(intent);
+            });
+        } else {
+            // afisare mesaj unavailable network
+            matchesFragment.getActivity().findViewById(R.id.homeUnavailableNetwork).setVisibility(View.VISIBLE);
+        }
     }
 }

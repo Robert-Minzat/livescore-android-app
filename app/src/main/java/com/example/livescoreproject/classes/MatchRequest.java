@@ -1,14 +1,16 @@
 package com.example.livescoreproject.classes;
 
-import android.content.Context;
 import android.os.AsyncTask;
+import android.view.View;
 
 import com.example.livescoreproject.R;
+import com.example.livescoreproject.activities.MatchInfoActivity;
 
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -16,20 +18,21 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MatchRequest extends AsyncTask<URL, Void, MatchInfo> {
-    private Context context;
+    private WeakReference<MatchInfoActivity> matchInfoActivityWeakReference;
     private MatchInfo match;
 
-    public MatchRequest(Context context) {
-        this.context = context;
+    public MatchRequest(MatchInfoActivity matchInfoActivity) {
+        matchInfoActivityWeakReference = new WeakReference<>(matchInfoActivity);
     }
 
     @Override
     protected MatchInfo doInBackground(URL... urls) {
+        MatchInfoActivity matchInfoActivity = matchInfoActivityWeakReference.get();
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss", Locale.getDefault());
-            StringBuffer s = new StringBuffer();
+            StringBuilder s = new StringBuilder();
             HttpURLConnection conn = (HttpURLConnection) urls[0].openConnection();
-            conn.setRequestProperty("X-Auth-Token", context.getResources().getString(R.string.api_key));
+            conn.setRequestProperty("X-Auth-Token", matchInfoActivity.getResources().getString(R.string.api_key));
             conn.connect();
             if(conn.getResponseCode() == 200) {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -67,11 +70,30 @@ public class MatchRequest extends AsyncTask<URL, Void, MatchInfo> {
                 );
             }
 
-            return match == null ? new MatchInfo() : match;
+            return match;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(MatchInfo matchInfo) {
+        super.onPostExecute(matchInfo);
+        MatchInfoActivity matchInfoActivity = matchInfoActivityWeakReference.get();
+
+        // ascundere loader
+        matchInfoActivity.findViewById(R.id.infoLoader).setVisibility(View.GONE);
+
+        if(matchInfo != null) {
+            matchInfoActivity.populateFields(matchInfo);
+
+            // afisare layout cu informatii
+            matchInfoActivity.findViewById(R.id.infoContent).setVisibility(View.VISIBLE);
+        } else {
+            // afisare mesaj unavailable network
+            matchInfoActivity.findViewById(R.id.infoUnavailableNetwork).setVisibility(View.VISIBLE);
+        }
     }
 }
