@@ -13,11 +13,11 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class MatchAdapter extends BaseAdapter {
+public class MatchesAdapter extends BaseAdapter {
     private Context context;
     private List<Match> matches;
 
-    public MatchAdapter(Context context, List<Match> matches) {
+    public MatchesAdapter(Context context, List<Match> matches) {
         this.context = context;
         this.matches = matches;
     }
@@ -58,7 +58,8 @@ public class MatchAdapter extends BaseAdapter {
         viewHolder.tvTime.setText(sdf.format(match.getDate()));
         viewHolder.tvHometeam.setText(match.getHomeTeam());
         viewHolder.tvAwayteam.setText(match.getAwayTeam());
-        viewHolder.tvScore.setText(match.getHomeTeamScore() + " - " + match.getAwayTeamScore());
+        String displayScore = match.getHomeTeamScore() + " - " + match.getAwayTeamScore();
+        viewHolder.tvScore.setText(displayScore);
 
         return view;
     }

@@ -2,7 +2,6 @@ package com.example.livescoreproject.classes;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -58,12 +57,21 @@ public class MatchesRequest extends AsyncTask<URL, Void, List<Match>> {
                         String year = dateString.substring(0, dateString.indexOf('T'));
                         String time = dateString.substring(dateString.indexOf('T') + 1, dateString.length() - 1);
                         Date date = sdf.parse(year + " " + time);
-                        int homeTeamScore, awayTeamScore;
 
-                        homeTeamScore = matchObj.getJSONObject("score").getJSONObject("fullTime").isNull("homeTeam")
-                                ? 0 : matchObj.getJSONObject("score").getJSONObject("fullTime").getInt("homeTeam");
-                        awayTeamScore = matchObj.getJSONObject("score").getJSONObject("fullTime").isNull("awayTeam")
-                                ? 0 : matchObj.getJSONObject("score").getJSONObject("fullTime").getInt("awayTeam");
+                        int homeTeamScore, awayTeamScore;
+                        if (matchObj.getJSONObject("score").getJSONObject("fullTime").isNull("homeTeam")) {
+                            homeTeamScore = matchObj.getJSONObject("score").getJSONObject("halfTime").isNull("homeTeam")
+                                    ? 0 : matchObj.getJSONObject("score").getJSONObject("halfTime").getInt("homeTeam");
+                        } else {
+                            homeTeamScore = matchObj.getJSONObject("score").getJSONObject("fullTime").getInt("homeTeam");
+                        }
+
+                        if (matchObj.getJSONObject("score").getJSONObject("fullTime").isNull("awayTeam")) {
+                            awayTeamScore = matchObj.getJSONObject("score").getJSONObject("halfTime").isNull("awayTeam")
+                                    ? 0 : matchObj.getJSONObject("score").getJSONObject("halfTime").getInt("awayTeam");
+                        } else {
+                            awayTeamScore = matchObj.getJSONObject("score").getJSONObject("fullTime").getInt("awayTeam");
+                        }
 
                         matchToAdd = new Match(
                                 matchObj.getInt("id"),
@@ -105,7 +113,7 @@ public class MatchesRequest extends AsyncTask<URL, Void, List<Match>> {
         ListView listView = matchesFragment.getActivity().findViewById(R.id.listViewHome);
         if (matches != null) {
             // initializare adapter personalizat
-            MatchAdapter adapter = new MatchAdapter(matchesFragment.getActivity().getApplicationContext(), matches);
+            MatchesAdapter adapter = new MatchesAdapter(matchesFragment.getActivity().getApplicationContext(), matches);
             // setare adapter listview
             listView.setAdapter(adapter);
 

@@ -39,4 +39,20 @@
     <string name="logout">Logout</string>
     <string name="no_intenet_connection">No intenet connection</string>
     <string name="network_unavailable">Network unavailable. Try again in 1 minute.</string>
+    <string name="wins">Wins</string>
+    <string name="number_of_matches">Number of matches:</string>
+    <string name="nom">nom</string>
+    <string name="total_goals">Total goals:</string>
+    <string name="tg">tg</string>
+    <string name="htl">htl</string>
+    <string name="history">History</string>
+    <string name="matchstatus">matchStatus</string>
+    <string name="losses">Losses</string>
+    <string name="htw">htw</string>
+    <string name="atw">atw</string>
+    <string name="draws">Draws</string>
+    <string name="atl">atl</string>
+    <string name="htd">htd</string>
+    <string name="atd">atd</string>
+    <string name="competitionname">competitionName</string>
 </resources>

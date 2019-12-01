@@ -1,5 +1,6 @@
 package com.example.livescoreproject.activities;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -29,6 +30,15 @@ public class LoginActivity extends AppCompatActivity {
         // folosit pentru resize/scroll atunci cand se deschide tastatura
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
+        // Afisare logo in toolbar
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayUseLogoEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setIcon(R.drawable.logo);
+            actionBar.setTitle(" " + getString(R.string.livescore));
+        }
+
         // get sharedpreferences
         sharedPreferences = new SharedPreferencesConfig(getApplicationContext());
 
@@ -38,9 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         tvRegister = findViewById(R.id.loginActivity_tvRegister);
 
         // event de click pe buton login
-        btnLogin.setOnClickListener(v -> {
-            loginUser();
-        });
+        btnLogin.setOnClickListener(v -> loginUser());
 
         // event de click buton register
         tvRegister.setOnClickListener(v -> {

@@ -34,7 +34,7 @@ public class MatchRequest extends AsyncTask<URL, Void, MatchInfo> {
             HttpURLConnection conn = (HttpURLConnection) urls[0].openConnection();
             conn.setRequestProperty("X-Auth-Token", matchInfoActivity.getResources().getString(R.string.api_key));
             conn.connect();
-            if(conn.getResponseCode() == 200) {
+            if (conn.getResponseCode() == 200) {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 for (String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()) {
                     s.append(line);
@@ -47,10 +47,25 @@ public class MatchRequest extends AsyncTask<URL, Void, MatchInfo> {
                 String time = dateString.substring(dateString.indexOf('T') + 1, dateString.length() - 1);
                 Date date = sdf.parse(year + " " + time);
 
-                int homeTeamScore = matchObj.getJSONObject("score").getJSONObject("fullTime").isNull("homeTeam")
-                        ? 0 : matchObj.getJSONObject("score").getJSONObject("fullTime").getInt("homeTeam");
-                int awayTeamScore = matchObj.getJSONObject("score").getJSONObject("fullTime").isNull("awayTeam")
-                        ? 0 : matchObj.getJSONObject("score").getJSONObject("fullTime").getInt("awayTeam");
+                int homeTeamScore, awayTeamScore;
+                if (matchObj.getJSONObject("score").getJSONObject("fullTime").isNull("homeTeam")) {
+                    homeTeamScore = matchObj.getJSONObject("score").getJSONObject("halfTime").isNull("homeTeam")
+                            ? 0 : matchObj.getJSONObject("score").getJSONObject("halfTime").getInt("homeTeam");
+                } else {
+                    homeTeamScore = matchObj.getJSONObject("score").getJSONObject("fullTime").getInt("homeTeam");
+                }
+
+                if (matchObj.getJSONObject("score").getJSONObject("fullTime").isNull("awayTeam")) {
+                    awayTeamScore = matchObj.getJSONObject("score").getJSONObject("halfTime").isNull("awayTeam")
+                            ? 0 : matchObj.getJSONObject("score").getJSONObject("halfTime").getInt("awayTeam");
+                } else {
+                    awayTeamScore = matchObj.getJSONObject("score").getJSONObject("fullTime").getInt("awayTeam");
+                }
+
+                String status = matchObj.getString("status");
+                if (status.equals("IN_PLAY")) {
+                    status = "IN PLAY";
+                }
 
                 match = new MatchInfo(
                         matchObj.getJSONObject("competition").getString("name"),
@@ -58,7 +73,7 @@ public class MatchRequest extends AsyncTask<URL, Void, MatchInfo> {
                         matchObj.getJSONObject("homeTeam").getString("name"),
                         matchObj.getJSONObject("awayTeam").getString("name"),
                         homeTeamScore + " - " + awayTeamScore,
-                        matchObj.getString("status"),
+                        status,
                         h2hObject.getInt("numberOfMatches"),
                         h2hObject.getInt("totalGoals"),
                         h2hObject.getJSONObject("homeTeam").getInt("wins"),
@@ -86,7 +101,7 @@ public class MatchRequest extends AsyncTask<URL, Void, MatchInfo> {
         // ascundere loader
         matchInfoActivity.findViewById(R.id.infoLoader).setVisibility(View.GONE);
 
-        if(matchInfo != null) {
+        if (matchInfo != null) {
             matchInfoActivity.populateFields(matchInfo);
 
             // afisare layout cu informatii
