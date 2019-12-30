@@ -6,13 +6,17 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.livescoreproject.DB.LivescoreDB;
+import com.example.livescoreproject.DB.UserDao;
 import com.example.livescoreproject.R;
+import com.example.livescoreproject.classes.User;
 
 import java.util.Calendar;
 
@@ -68,7 +72,18 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 return;
             }
 
-            // TODO creare user cu campurile de mai sus si salvare in baza de date(faza 2)
+            RadioButton radioButton = findViewById(rgSex.getCheckedRadioButtonId());
+            User user = new User(
+                    etUsername.getText().toString().trim(),
+                    etEmail.getText().toString().trim(),
+                    etPassword.getText().toString().trim(),
+                    radioButton.getText().toString(),
+                    etDateOfBirth.getText().toString().trim());
+
+            // adaugare user creat in baza de date
+            UserDao userDao = LivescoreDB.getInstance(getApplicationContext()).getUserDao();
+            userDao.addUser(user);
+
             Toast.makeText(this, "Account created! You can now log in!", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, LoginActivity.class));
             finish();

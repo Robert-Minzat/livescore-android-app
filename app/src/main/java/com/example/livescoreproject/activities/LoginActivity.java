@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.livescoreproject.DB.LivescoreDB;
+import com.example.livescoreproject.DB.UserDao;
 import com.example.livescoreproject.R;
 import com.example.livescoreproject.classes.SharedPreferencesConfig;
 import com.example.livescoreproject.classes.User;
@@ -61,17 +63,12 @@ public class LoginActivity extends AppCompatActivity {
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
 
-        // verificarea se face deocamdata cu valori hardcodate, in urmatoarea etapa se vor verifica folosind userii stocati in baza de date
-        // se va stoca in sharedpreferences id-ul userului gasit
-        if(username.equals(getString(R.string.temp_username)) && password.equals(getString(R.string.temp_password))) {
-            // se stocheaza o valoare temporara
-            sharedPreferences.writeLoginId(Integer.parseInt(getString(R.string.temp_userId)));
-            // deocamdata generam un dummy user
-            User user = new User(
-                    getString(R.string.temp_username),
-                    getString(R.string.temp_email),
-                    Integer.parseInt(getString(R.string.temp_userId))
-            );
+        UserDao userDao = LivescoreDB.getInstance(getApplicationContext()).getUserDao();
+        User user = userDao.checkUsernameAndPass(username, password);
+        if(user != null) {
+            // se stocheaza id-ul userului gasit pentru a tine minte ca este logat
+            sharedPreferences.writeLoginId(user.getUserId());
+            Toast.makeText(this, user.getDateOfBirth().toString(), Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, MainActivity.class);
             // adaugare user in intent pentru a fi transmis mai departe
             intent.putExtra("user", user);

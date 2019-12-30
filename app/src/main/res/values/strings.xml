@@ -34,7 +34,7 @@
     <string name="matchtime">matchTime</string>
     <string name="hometeam">homeTeam</string>
     <string name="awayteam">awayTeam</string>
-    <string name="matchscore">matchScore</string>
+    <string name="matchscore">mS</string>
     <string name="about">About</string>
     <string name="logout">Logout</string>
     <string name="no_intenet_connection">No intenet connection</string>
