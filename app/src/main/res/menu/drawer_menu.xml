@@ -9,6 +9,14 @@
             android:id="@+id/nav_matches"
             android:icon="@drawable/ic_matches"
             android:title="@string/matches" />
+        <item
+            android:id="@+id/nav_favorites"
+            android:icon="@drawable/ic_favorites"
+            android:title="@string/favorites" />
+        <item
+            android:id="@+id/nav_rapoarte_grafic"
+            android:icon="@drawable/ic_favorites"
+            android:title="Rapoarte &amp; grafic" />
     </group>
     <group
         android:id="@+id/nav_secondary_section"

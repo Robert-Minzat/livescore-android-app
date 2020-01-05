@@ -55,4 +55,15 @@
     <string name="htd">htd</string>
     <string name="atd">atd</string>
     <string name="competitionname">competitionName</string>
+    <string name="favorites">Favorites</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="add_to_firebase">Add to firebase</string>
+    <string name="match_added_to_favs">Match added to favorites!</string>
+    <string name="remove">Remove</string>
+    <string name="long_press_to_delete">Long press to delete</string>
+    <string name="number_of_favorite_matches_from_2018">Number of favorite matches from 2018:</string>
+    <string name="number_of_favorite_matches_from_2019">Number of favorite matches from 2019:</string>
+    <string name="number_of_favorite_matches_from_2020">Number of favorite matches from 2020:</string>
+    <string name="users_under_18">Users under 18:</string>
+    <string name="users_over_18">Users over 18:</string>
 </resources>

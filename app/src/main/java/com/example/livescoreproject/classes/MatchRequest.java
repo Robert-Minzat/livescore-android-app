@@ -1,6 +1,7 @@
 package com.example.livescoreproject.classes;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 
 import com.example.livescoreproject.R;
@@ -29,7 +30,6 @@ public class MatchRequest extends AsyncTask<URL, Void, MatchInfo> {
     protected MatchInfo doInBackground(URL... urls) {
         MatchInfoActivity matchInfoActivity = matchInfoActivityWeakReference.get();
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss", Locale.getDefault());
             StringBuilder s = new StringBuilder();
             HttpURLConnection conn = (HttpURLConnection) urls[0].openConnection();
             conn.setRequestProperty("X-Auth-Token", matchInfoActivity.getResources().getString(R.string.api_key));
@@ -45,8 +45,7 @@ public class MatchRequest extends AsyncTask<URL, Void, MatchInfo> {
                 String dateString = matchObj.getString("utcDate");
                 String year = dateString.substring(0, dateString.indexOf('T'));
                 String time = dateString.substring(dateString.indexOf('T') + 1, dateString.length() - 1);
-                Date date = sdf.parse(year + " " + time);
-
+                Date date =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).parse(year + " " + time);
                 int homeTeamScore, awayTeamScore;
                 if (matchObj.getJSONObject("score").getJSONObject("fullTime").isNull("homeTeam")) {
                     homeTeamScore = matchObj.getJSONObject("score").getJSONObject("halfTime").isNull("homeTeam")

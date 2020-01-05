@@ -32,7 +32,7 @@
             android:id="@+id/infoContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/tvInfoMatchscore"
@@ -278,6 +278,35 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <Button
+                android:id="@+id/btnInfoFavorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/btn_bg_rounded"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:text="@string/add_to_favorites"
+                android:textColor="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.20"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvInfoLoses" />
+
+            <Button
+                android:id="@+id/btnInfoFirebase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/btn_bg_rounded"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:text="@string/add_to_firebase"
+                android:textColor="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.80"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvInfoLoses" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </ScrollView>

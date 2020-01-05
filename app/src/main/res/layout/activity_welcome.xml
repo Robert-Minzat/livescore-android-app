@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".activities.WelcomeActivity">
 
+    <ProgressBar
+        android:id="@+id/welcomeLoader"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
+
     <TextView
         android:id="@+id/tvWelcomeLivescore"
         android:layout_width="wrap_content"
@@ -50,6 +62,7 @@
         app:layout_constraintVertical_bias="0.85" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

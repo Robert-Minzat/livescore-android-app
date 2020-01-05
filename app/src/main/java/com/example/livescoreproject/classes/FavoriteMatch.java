@@ -1,9 +1,13 @@
 package com.example.livescoreproject.classes;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
+
+import com.example.livescoreproject.DB.Converters;
 
 import java.util.Date;
 
@@ -16,21 +20,18 @@ import static androidx.room.ForeignKey.CASCADE;
                 childColumns = "userId",
                 onDelete = CASCADE))
 public class FavoriteMatch {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String homeTeam;
     private String awayTeam;
-    private int homeTeamScore;
-    private int awayTeamScore;
+    private String score;
     private Date date;
     private int userId;
 
-    public FavoriteMatch(int id, String homeTeam, String awayTeam, int homeTeamScore, int awayTeamScore, Date date, int userId) {
-        this.id = id;
+    public FavoriteMatch(String homeTeam, String awayTeam, String score, Date date, int userId) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
-        this.homeTeamScore = homeTeamScore;
-        this.awayTeamScore = awayTeamScore;
+        this.score = score;
         this.date = date;
         this.userId = userId;
     }
@@ -59,20 +60,12 @@ public class FavoriteMatch {
         this.awayTeam = awayTeam;
     }
 
-    public int getHomeTeamScore() {
-        return homeTeamScore;
+    public String getScore() {
+        return score;
     }
 
-    public void setHomeTeamScore(int homeTeamScore) {
-        this.homeTeamScore = homeTeamScore;
-    }
-
-    public int getAwayTeamScore() {
-        return awayTeamScore;
-    }
-
-    public void setAwayTeamScore(int awayTeamScore) {
-        this.awayTeamScore = awayTeamScore;
+    public void setScore(String score) {
+        this.score = score;
     }
 
     public Date getDate() {
@@ -97,8 +90,7 @@ public class FavoriteMatch {
                 "id=" + id +
                 ", homeTeam='" + homeTeam + '\'' +
                 ", awayTeam='" + awayTeam + '\'' +
-                ", homeTeamScore=" + homeTeamScore +
-                ", awayTeamScore=" + awayTeamScore +
+                ", score=" + score +
                 ", date=" + date +
                 ", userId=" + userId +
                 '}';

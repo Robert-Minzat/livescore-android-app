@@ -12,7 +12,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MatchInfoActivity"></activity>
+        <activity android:name=".activities.MatchInfoActivity" />
         <activity
             android:name=".activities.RegisterActivity"
             android:windowSoftInputMode="adjustResize" />

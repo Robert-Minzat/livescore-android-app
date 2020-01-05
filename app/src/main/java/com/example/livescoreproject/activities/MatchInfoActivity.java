@@ -3,23 +3,37 @@ package com.example.livescoreproject.activities;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.livescoreproject.DB.FavoriteMatchDao;
+import com.example.livescoreproject.DB.LivescoreDB;
+import com.example.livescoreproject.DB.UserDao;
 import com.example.livescoreproject.R;
+import com.example.livescoreproject.classes.FavoriteMatch;
 import com.example.livescoreproject.classes.MatchInfo;
 import com.example.livescoreproject.classes.MatchRequest;
+import com.example.livescoreproject.classes.SharedPreferencesConfig;
+import com.example.livescoreproject.classes.User;
 
+import java.lang.ref.WeakReference;
 import java.math.MathContext;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class MatchInfoActivity extends AppCompatActivity {
+    private SharedPreferencesConfig sharedPreferences;
     private int matchId;
     private TextView tvCompetition, tvMatchTime, tvMatchScore, tvMatchStatus, tvHometeam, tvAwayteam, tvNumberOfMatches, tvTotalGoals,
         tvHometeamWins, tvHometeamDraws, tvHometeamLosses, tvAwayteamWins, tvAwayteamDraws, tvAwayteamLosses;
+    private Button btnAddFavorite, btnAddFirebase;
+    private FavoriteMatch match;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +41,7 @@ public class MatchInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_match_info);
 
         matchId = getIntent().getIntExtra("matchId", 0);
+        sharedPreferences = new SharedPreferencesConfig(this);
 
         ActionBar actionBar = getSupportActionBar();
         // Afisare logo  si button de back in toolbar
@@ -54,6 +69,14 @@ public class MatchInfoActivity extends AppCompatActivity {
         tvAwayteamDraws = findViewById(R.id.tvInfoAtDraws);
         tvAwayteamLosses = findViewById(R.id.tvInfoAtLosses);
 
+        // get buttons
+        btnAddFavorite = findViewById(R.id.btnInfoFavorite);
+        btnAddFirebase = findViewById(R.id.btnInfoFirebase);
+
+        btnAddFavorite.setOnClickListener( v -> {
+            new FavoriteMatchTask(this).execute(match);
+        });
+
         //request match
         try {
             URL url = new URL(getString(R.string.api_matches_link) + "/" + matchId);
@@ -64,9 +87,10 @@ public class MatchInfoActivity extends AppCompatActivity {
     }
 
     public void populateFields(MatchInfo matchInfo) {
+        match = new FavoriteMatch(matchInfo.getHometeam(), matchInfo.getAwayteam(), matchInfo.getScore(), matchInfo.getMatchTime(), sharedPreferences.readLoginId());
         tvCompetition.setText(matchInfo.getCompetitionName());
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM HH:mm", Locale.getDefault());
-        tvMatchTime.setText(sdf.format(matchInfo.getMatchTime()));
+        SimpleDateFormat sdf2 = new SimpleDateFormat("EEE, d MMM HH:mm", Locale.getDefault());
+        tvMatchTime.setText(sdf2.format(matchInfo.getMatchTime()));
         tvMatchScore.setText(matchInfo.getScore());
         tvMatchStatus.setText(matchInfo.getStatus());
         tvHometeam.setText(matchInfo.getHometeam());
@@ -87,4 +111,23 @@ public class MatchInfoActivity extends AppCompatActivity {
         return true;
     }
 
+    private static class FavoriteMatchTask extends AsyncTask<FavoriteMatch, Void, Void> {
+        private WeakReference<MatchInfoActivity> matchInfoActivityWeakReference;
+
+        FavoriteMatchTask(MatchInfoActivity context) {
+            matchInfoActivityWeakReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected Void doInBackground(FavoriteMatch... matches) {
+            FavoriteMatchDao favoriteMatchDao = LivescoreDB.getInstance(matchInfoActivityWeakReference.get().getApplicationContext()).getFavoriteMatchDao();
+            favoriteMatchDao.insertFavoriteMatch(matches[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Toast.makeText(matchInfoActivityWeakReference.get(), matchInfoActivityWeakReference.get().getString(R.string.match_added_to_favs), Toast.LENGTH_SHORT).show();
+        }
+    }
 }

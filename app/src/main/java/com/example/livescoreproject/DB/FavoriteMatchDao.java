@@ -17,6 +17,9 @@ public interface FavoriteMatchDao {
     @Query("SELECT * FROM FavoriteMatches WHERE userId=:userId")
     List<FavoriteMatch> getFavoriteMatchesbyUserId(int userId);
 
+    @Query("SELECT COUNT(*) FROM FavoriteMatches WHERE date BETWEEN date(:yearStringBegin) AND date(:yearStringEnd)")
+    int getNoFavoriteMatchesByYear(String yearStringBegin, String yearStringEnd);
+
     @Insert
     void insertFavoriteMatch(FavoriteMatch favoriteMatch);
 

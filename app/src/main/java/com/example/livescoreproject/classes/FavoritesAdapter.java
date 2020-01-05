@@ -14,11 +14,11 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class MatchesAdapter extends BaseAdapter {
+public class FavoritesAdapter extends BaseAdapter {
     private Context context;
-    private List<Match> matches;
+    private List<FavoriteMatch> matches;
 
-    public MatchesAdapter(Context context, List<Match> matches) {
+    public FavoritesAdapter(Context context, List<FavoriteMatch> matches) {
         this.context = context;
         this.matches = matches;
     }
@@ -41,26 +41,25 @@ public class MatchesAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         ViewHolder viewHolder;
-        if(view == null) {
-           viewHolder = new ViewHolder();
-           view = LayoutInflater.from(context).inflate(R.layout.elem_matches, parent, false);
-           viewHolder.tvTime = view.findViewById(R.id.tvHomeMatchTime);
-           viewHolder.tvHometeam = view.findViewById(R.id.tvHomeHometeam);
-           viewHolder.tvAwayteam = view.findViewById(R.id.tvHomeAwayteam);
-           viewHolder.tvScore = view.findViewById(R.id.tvHomeMatchScore);
+        if (view == null) {
+            viewHolder = new ViewHolder();
+            view = LayoutInflater.from(context).inflate(R.layout.elem_favorites, parent, false);
+            viewHolder.tvTime = view.findViewById(R.id.tvFavMatchTime);
+            viewHolder.tvHometeam = view.findViewById(R.id.tvFavHometeam);
+            viewHolder.tvAwayteam = view.findViewById(R.id.tvFavAwayteam);
+            viewHolder.tvScore = view.findViewById(R.id.tvFavMatchScore);
 
-           view.setTag(viewHolder);
+            view.setTag(viewHolder);
         } else {
-            viewHolder = (ViewHolder)view.getTag();
+            viewHolder = (ViewHolder) view.getTag();
         }
 
-        Match  match = matches.get(position);
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        FavoriteMatch match = matches.get(position);
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm", Locale.getDefault());
         viewHolder.tvTime.setText(sdf.format(match.getDate()));
         viewHolder.tvHometeam.setText(match.getHomeTeam());
         viewHolder.tvAwayteam.setText(match.getAwayTeam());
-        String displayScore = match.getHomeTeamScore() + " - " + match.getAwayTeamScore();
-        viewHolder.tvScore.setText(displayScore);
+        viewHolder.tvScore.setText(match.getScore());
         return view;
     }
 

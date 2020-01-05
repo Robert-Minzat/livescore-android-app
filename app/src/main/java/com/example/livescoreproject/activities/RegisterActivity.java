@@ -2,6 +2,7 @@ package com.example.livescoreproject.activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -18,6 +19,7 @@ import com.example.livescoreproject.DB.UserDao;
 import com.example.livescoreproject.R;
 import com.example.livescoreproject.classes.User;
 
+import java.lang.ref.WeakReference;
 import java.util.Calendar;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -81,12 +83,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                     etDateOfBirth.getText().toString().trim());
 
             // adaugare user creat in baza de date
-            UserDao userDao = LivescoreDB.getInstance(getApplicationContext()).getUserDao();
-            userDao.addUser(user);
-
-            Toast.makeText(this, "Account created! You can now log in!", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
+            new UserTask(this).execute(user);
         });
 
     }
@@ -102,7 +99,30 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date = year + "/" + (month + 1) + "/" + dayOfMonth;
+        String date = year + "-" + (month + 1) + "-" + dayOfMonth;
         etDateOfBirth.setText(date);
+    }
+
+    private static class UserTask extends AsyncTask<User, Void, Void> {
+        private WeakReference<RegisterActivity> registerActivityWeakReference;
+
+        UserTask(RegisterActivity context) {
+            registerActivityWeakReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected Void doInBackground(User... users) {
+            UserDao userDao = LivescoreDB.getInstance(registerActivityWeakReference.get().getApplicationContext()).getUserDao();
+            userDao.addUser(users[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            RegisterActivity registerActivity = registerActivityWeakReference.get();
+            Toast.makeText(registerActivity, "Account created! You can now log in!", Toast.LENGTH_LONG).show();
+            registerActivity.startActivity(new Intent(registerActivity, LoginActivity.class));
+            registerActivity.finish();
+        }
     }
 }

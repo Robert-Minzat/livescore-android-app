@@ -16,7 +16,9 @@ import com.example.livescoreproject.R;
 import com.example.livescoreproject.classes.SharedPreferencesConfig;
 import com.example.livescoreproject.classes.User;
 import com.example.livescoreproject.fragments.AboutFragment;
+import com.example.livescoreproject.fragments.FavoritesFragment;
 import com.example.livescoreproject.fragments.MatchesFragment;
+import com.example.livescoreproject.fragments.RapoarteFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,6 +44,12 @@ public class MainActivity extends AppCompatActivity {
 
         // get obiect user primit prin intent
         User user = intent.getParcelableExtra("user");
+        if(user == null) {
+            sharedPreferences.writeLoginId(-1);
+            finish();
+            startActivity(new Intent(this, WelcomeActivity.class));
+            return;
+        }
 
         // configurare navigation view
         navigationView = findViewById(R.id.nav_view);
@@ -80,6 +88,18 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.nav_matches:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             new MatchesFragment()).commit();
+                    break;
+                case R.id.nav_favorites:
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("userId", sharedPreferences.readLoginId());
+                    FavoritesFragment favoritesFragment = new FavoritesFragment();
+                    favoritesFragment.setArguments(bundle);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            favoritesFragment).commit();
+                    break;
+                case R.id.nav_rapoarte_grafic:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new RapoarteFragment()).commit();
                     break;
                 case R.id.nav_about:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

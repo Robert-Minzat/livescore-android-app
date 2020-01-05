@@ -23,6 +23,12 @@ public interface UserDao {
     @Query("SELECT * FROM Users WHERE username=:username AND password=:password LIMIT 1")
     User checkUsernameAndPass(String username, String password);
 
+    @Query("SELECT * FROM users WHERE dateOfBirth < date('now', '-18 years')")
+    int getUsersOver18();
+
+    @Query("SELECT * FROM users WHERE dateOfBirth > date('now', '-18 years')")
+    int getUsersUnder18();
+
     @Insert
     void addUser(User user);
 

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvMatches2018"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/number_of_favorite_matches_from_2018"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvMatches2019"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/number_of_favorite_matches_from_2019"
+        app:layout_constraintStart_toStartOf="@+id/tvMatches2018"
+        app:layout_constraintTop_toBottomOf="@+id/tvMatches2018" />
+
+    <TextView
+        android:id="@+id/tvMatches2020"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/number_of_favorite_matches_from_2020"
+        app:layout_constraintStart_toStartOf="@+id/tvMatches2019"
+        app:layout_constraintTop_toBottomOf="@+id/tvMatches2019" />
+
+    <TextView
+        android:id="@+id/tvUsersUnder18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/users_under_18"
+        app:layout_constraintStart_toStartOf="@+id/tvMatches2020"
+        app:layout_constraintTop_toBottomOf="@+id/tvMatches2020" />
+
+    <TextView
+        android:id="@+id/tvUsersOver18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/users_over_18"
+        app:layout_constraintStart_toStartOf="@+id/tvUsersUnder18"
+        app:layout_constraintTop_toBottomOf="@+id/tvUsersUnder18" />
+
+    <TextView
+        android:id="@+id/tvMatches2018Value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@+id/tvMatches2018"
+        app:layout_constraintTop_toTopOf="@+id/tvMatches2018" />
+
+    <TextView
+        android:id="@+id/tvMatches2019Value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@+id/tvMatches2019"
+        app:layout_constraintTop_toTopOf="@+id/tvMatches2019" />
+
+    <TextView
+        android:id="@+id/tvMatches2020Value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@+id/tvMatches2020"
+        app:layout_constraintTop_toTopOf="@+id/tvMatches2020" />
+
+    <TextView
+        android:id="@+id/tvUsersUnder18Value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@+id/tvUsersUnder18"
+        app:layout_constraintTop_toTopOf="@+id/tvUsersUnder18" />
+
+    <TextView
+        android:id="@+id/tvUsersOver18Value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@+id/tvUsersOver18"
+        app:layout_constraintTop_toTopOf="@+id/tvUsersOver18" />
+</androidx.constraintlayout.widget.ConstraintLayout>
