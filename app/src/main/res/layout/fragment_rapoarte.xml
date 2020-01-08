@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,7 +10,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
+        android:shadowColor="@color/common_google_signin_btn_text_dark_focused"
+        android:shadowDx="2"
+
+        android:shadowDy="2"
+        android:shadowRadius="2"
         android:text="@string/number_of_favorite_matches_from_2018"
+        android:textColor="#0000FF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,7 +25,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:shadowColor="@color/common_google_signin_btn_text_dark_focused"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
         android:text="@string/number_of_favorite_matches_from_2019"
+        android:textColor="#FFFF00"
         app:layout_constraintStart_toStartOf="@+id/tvMatches2018"
         app:layout_constraintTop_toBottomOf="@+id/tvMatches2018" />
 
@@ -30,7 +39,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:shadowColor="@color/common_google_signin_btn_text_dark_focused"
+        android:shadowDx="2"
+
+        android:shadowDy="2"
+        android:shadowRadius="2"
         android:text="@string/number_of_favorite_matches_from_2020"
+        android:textColor="#FF0000"
         app:layout_constraintStart_toStartOf="@+id/tvMatches2019"
         app:layout_constraintTop_toBottomOf="@+id/tvMatches2019" />
 
@@ -100,8 +115,29 @@
         android:background="@drawable/btn_bg_rounded"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        android:text="Save to txt file"
+        android:text="@string/save_to_txt_file"
         android:textColor="#FFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvUsersUnder18" />
+
+    <com.example.livescoreproject.classes.RaportView
+        android:id="@+id/raportPieChart"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="128dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSaveReport" />
+
+    <TextView
+        android:id="@+id/tvNoData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_data_for_piechart"
+        android:textSize="30sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/raportPieChart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/raportPieChart" />
 </androidx.constraintlayout.widget.ConstraintLayout>

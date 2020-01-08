@@ -63,9 +63,9 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             } else if (etPassword.getText().toString().trim().length() < 1) {
                 Toast.makeText(this, "Password is too short!", Toast.LENGTH_SHORT).show();
                 return;
-            } else if (!etPassword.getText().toString().trim().equals(etConfirmPassword.getText().toString().trim())) {
-                Toast.makeText(this, "Passwords do no match!", Toast.LENGTH_SHORT).show();
-                return;
+//            } else if (!etPassword.getText().toString().trim().equals(etConfirmPassword.getText().toString().trim())) {
+//                Toast.makeText(this, "Passwords do no match!", Toast.LENGTH_SHORT).show();
+//                return;
             } else if (rgSex.getCheckedRadioButtonId() == -1) {
                 Toast.makeText(this, "Please choose your sex!", Toast.LENGTH_SHORT).show();
                 return;

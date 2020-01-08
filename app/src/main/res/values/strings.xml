@@ -67,4 +67,8 @@
     <string name="users_under_18">Users under 18:</string>
     <string name="users_over_18">Users over 18:</string>
     <string name="reports_amp_graphs"><![CDATA[Reports & graphs]]></string>
+    <string name="save_to_txt_file">Save to txt file</string>
+    <string name="logo_ase">https://upload.wikimedia.org/wikipedia/ro/a/a3/Logo_ASE.png</string>
+    <string name="no_data_for_piechart">No data for piechart</string>
+    <string name="logo_ase_text">Logo ASE</string>
 </resources>
