@@ -1,11 +1,14 @@
 package com.example.livescoreproject.fragments;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,16 +19,23 @@ import com.example.livescoreproject.DB.LivescoreDB;
 import com.example.livescoreproject.DB.UserDao;
 import com.example.livescoreproject.R;
 import com.example.livescoreproject.activities.MainActivity;
+import com.example.livescoreproject.classes.SharedPreferencesConfig;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
 public class RapoarteFragment extends Fragment {
-    TextView tvMatches2018Value, tvMatches2019Value, tvMatches2020Value, tvUsersUnder18Value, tvUsersOver18Value;
+    private TextView tvMatches2018Value, tvMatches2019Value, tvMatches2020Value, tvUsersUnder18Value, tvUsersOver18Value;
+    private SharedPreferencesConfig sharedPreferences;
+    private Button btnSaveReport;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        sharedPreferences = new SharedPreferencesConfig(getActivity());
         return inflater.inflate(R.layout.fragment_rapoarte, container, false);
     }
 
@@ -36,6 +46,36 @@ public class RapoarteFragment extends Fragment {
         tvMatches2020Value = getActivity().findViewById(R.id.tvMatches2020Value);
         tvUsersUnder18Value = getActivity().findViewById(R.id.tvUsersUnder18Value);
         tvUsersOver18Value = getActivity().findViewById(R.id.tvUsersOver18Value);
+        btnSaveReport = getActivity().findViewById(R.id.btnSaveReport);
+
+        btnSaveReport.setOnClickListener(v -> {
+            FileOutputStream fos = null;
+            try {
+                fos = getActivity().openFileOutput("report.txt", Context.MODE_PRIVATE);
+                StringBuffer text = new StringBuffer();
+                text.append(
+                        getActivity().getString(R.string.number_of_favorite_matches_from_2018) + " " + tvMatches2018Value.getText() + "\n" +
+                        getActivity().getString(R.string.number_of_favorite_matches_from_2018) + " " + tvMatches2019Value.getText() +"\n" +
+                        getActivity().getString(R.string.number_of_favorite_matches_from_2018) + " " + tvMatches2020Value.getText() +"\n" +
+                        "\n" +
+                        getActivity().getString(R.string.users_under_18) + " " + tvUsersUnder18Value.getText() + "\n" +
+                        getActivity().getString(R.string.users_over_18) + " " + tvUsersOver18Value.getText() + "\n"
+                );
+                fos.write(text.toString().getBytes());
+                Toast.makeText(getActivity(), "Saved to " + getActivity().getFilesDir() + "/report.txt",
+                        Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (fos != null) {
+                    try {
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
 
         new GetNoMatchesByYearTask((MainActivity)getActivity()).execute(2018,2019,2020);
         new GetUsersOverAndUnder18Task((MainActivity)getActivity()).execute();
@@ -55,7 +95,7 @@ public class RapoarteFragment extends Fragment {
             for (int i = 0; i < 3; i++) {
                 String yearBegin= ints[i] + "-01-01";
                 String yearEnd = ints[i] + "-12-31";
-                matches[i] = favoriteMatchDao.getNoFavoriteMatchesByYear(yearBegin, yearEnd);
+                matches[i] = favoriteMatchDao.getNoFavoriteMatchesByYear(yearBegin, yearEnd, sharedPreferences.readLoginId());
             }
             return matches;
         }

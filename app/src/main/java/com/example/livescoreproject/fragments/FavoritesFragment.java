@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,12 +18,17 @@ import com.example.livescoreproject.R;
 import com.example.livescoreproject.activities.MainActivity;
 import com.example.livescoreproject.classes.FavoriteMatch;
 import com.example.livescoreproject.classes.FavoritesAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FavoritesFragment extends Fragment {
-    private ListView listView;
+    private ListView listView, listViewFirebase;
     private int userId;
 
     @Nullable
@@ -37,8 +41,31 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         listView = getActivity().findViewById(R.id.listViewFavorites);
+        listViewFirebase = getActivity().findViewById(R.id.listViewFirebase);
 
         new FavoriteMatchesTask((MainActivity) getActivity()).execute(userId);
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        List<FavoriteMatch> firebaseFavorites = new ArrayList<>();
+        FavoritesAdapter firebaseFavoritesAdapter = new FavoritesAdapter(getActivity().getApplicationContext(), firebaseFavorites);
+        listViewFirebase.setAdapter(firebaseFavoritesAdapter);
+
+        db.getReference(String.valueOf(userId)).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot favMatchDS : dataSnapshot.getChildren()) {
+                    FavoriteMatch match = favMatchDS.getValue(FavoriteMatch.class);
+                    firebaseFavorites.add(match);
+                }
+                firebaseFavoritesAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private class FavoriteMatchesTask extends AsyncTask<Integer, Void, List<FavoriteMatch>> {
@@ -59,7 +86,7 @@ public class FavoritesFragment extends Fragment {
             listView.setAdapter(favoritesAdapter);
 
             listView.setOnItemLongClickListener((parent, view, position, id) -> {
-                FavoriteMatch match = (FavoriteMatch)parent.getItemAtPosition(position);
+                FavoriteMatch match = (FavoriteMatch) parent.getItemAtPosition(position);
                 favoriteMatches.remove(match);
 
                 new DeleteTask(activity, favoritesAdapter).execute(match);

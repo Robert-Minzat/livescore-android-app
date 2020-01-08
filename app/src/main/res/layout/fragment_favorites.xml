@@ -14,10 +14,54 @@
         android:text="@string/long_press_to_delete"
         android:textColor="@color/colorPrimary" />
 
+    <TextView
+        android:id="@+id/tvFromSQLite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvLongPressDelete"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="From SQLite"
+        android:textColor="@color/colorPrimary" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@+id/tvFromSQLite"
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/colorAccent" />
+
     <ListView
         android:id="@+id/listViewFavorites"
         android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/tvFromSQLite">
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/tvFromFirebase"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvLongPressDelete"/>
+        android:layout_below="@+id/listViewFavorites"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="From Firebase"
+        android:textColor="@color/colorPrimary" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@+id/tvFromFirebase"
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/colorAccent" />
+
+    <ListView
+        android:id="@+id/listViewFirebase"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/tvFromFirebase" />
 
 </RelativeLayout>

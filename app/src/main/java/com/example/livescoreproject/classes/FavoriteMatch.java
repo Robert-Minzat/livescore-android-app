@@ -28,6 +28,9 @@ public class FavoriteMatch {
     private Date date;
     private int userId;
 
+    public FavoriteMatch() {
+    }
+
     public FavoriteMatch(String homeTeam, String awayTeam, String score, Date date, int userId) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;

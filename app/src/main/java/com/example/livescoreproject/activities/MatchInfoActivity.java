@@ -1,28 +1,26 @@
 package com.example.livescoreproject.activities;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.livescoreproject.DB.FavoriteMatchDao;
 import com.example.livescoreproject.DB.LivescoreDB;
-import com.example.livescoreproject.DB.UserDao;
 import com.example.livescoreproject.R;
 import com.example.livescoreproject.classes.FavoriteMatch;
 import com.example.livescoreproject.classes.MatchInfo;
 import com.example.livescoreproject.classes.MatchRequest;
 import com.example.livescoreproject.classes.SharedPreferencesConfig;
-import com.example.livescoreproject.classes.User;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.lang.ref.WeakReference;
-import java.math.MathContext;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -31,9 +29,10 @@ public class MatchInfoActivity extends AppCompatActivity {
     private SharedPreferencesConfig sharedPreferences;
     private int matchId;
     private TextView tvCompetition, tvMatchTime, tvMatchScore, tvMatchStatus, tvHometeam, tvAwayteam, tvNumberOfMatches, tvTotalGoals,
-        tvHometeamWins, tvHometeamDraws, tvHometeamLosses, tvAwayteamWins, tvAwayteamDraws, tvAwayteamLosses;
+            tvHometeamWins, tvHometeamDraws, tvHometeamLosses, tvAwayteamWins, tvAwayteamDraws, tvAwayteamLosses;
     private Button btnAddFavorite, btnAddFirebase;
     private FavoriteMatch match;
+    private ImageView ivHometeam, ivAwayteam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,20 +67,32 @@ public class MatchInfoActivity extends AppCompatActivity {
         tvAwayteamWins = findViewById(R.id.tvInfoAtWins);
         tvAwayteamDraws = findViewById(R.id.tvInfoAtDraws);
         tvAwayteamLosses = findViewById(R.id.tvInfoAtLosses);
+        ivHometeam = findViewById(R.id.ivHometeam);
+        ivAwayteam = findViewById(R.id.ivAwayTeam);
 
         // get buttons
         btnAddFavorite = findViewById(R.id.btnInfoFavorite);
         btnAddFirebase = findViewById(R.id.btnInfoFirebase);
 
-        btnAddFavorite.setOnClickListener( v -> {
+        btnAddFavorite.setOnClickListener(v -> {
             new FavoriteMatchTask(this).execute(match);
+        });
+
+
+        btnAddFirebase.setOnClickListener(v -> {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference ref = database.getReference(String.valueOf(sharedPreferences.readLoginId()));
+            DatabaseReference pushPostRef = ref.push();
+            String postId = pushPostRef.getKey();
+            ref.child(postId).setValue(match);
+            Toast.makeText(this, "Match added to firebase!", Toast.LENGTH_SHORT).show();
         });
 
         //request match
         try {
             URL url = new URL(getString(R.string.api_matches_link) + "/" + matchId);
             new MatchRequest(this).execute(url);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -38,7 +38,7 @@ public class MatchesRequest extends AsyncTask<URL, Void, List<Match>> {
             StringBuilder s;
             JSONObject responseObj, matchObj;
             Match matchToAdd;
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
             for (URL url : urls) {
                 s = new StringBuilder();
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -122,6 +122,8 @@ public class MatchesRequest extends AsyncTask<URL, Void, List<Match>> {
                 Match itemClicked = (Match) parent.getItemAtPosition(position);
                 Intent intent = new Intent(matchesFragment.getActivity(), MatchInfoActivity.class);
                 intent.putExtra("matchId", itemClicked.getMatchId());
+                intent.putExtra("homeTeamId", itemClicked.getHomeTeamId());
+                intent.putExtra("awayTeamId", itemClicked.getAwayTeamId());
                 matchesFragment.startActivity(intent);
             });
         } else {
