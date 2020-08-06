@@ -54,18 +54,18 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         btnRegister.setOnClickListener(v -> {
-            if (etUsername.getText().toString().trim().length() < 1) {
+            if (etUsername.getText().toString().trim().length() < 3) {
                 Toast.makeText(this, "Username is too short!", Toast.LENGTH_SHORT).show();
                 return;
-//            } else if (!etEmail.getText().toString().trim().matches(emailPattern)) {
-//                Toast.makeText(this, "Invalid email!", Toast.LENGTH_SHORT).show();
-//                return;
-            } else if (etPassword.getText().toString().trim().length() < 1) {
+            } else if (!etEmail.getText().toString().trim().matches(emailPattern)) {
+                Toast.makeText(this, "Invalid email!", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (etPassword.getText().toString().trim().length() < 3) {
                 Toast.makeText(this, "Password is too short!", Toast.LENGTH_SHORT).show();
                 return;
-//            } else if (!etPassword.getText().toString().trim().equals(etConfirmPassword.getText().toString().trim())) {
-//                Toast.makeText(this, "Passwords do no match!", Toast.LENGTH_SHORT).show();
-//                return;
+            } else if (!etPassword.getText().toString().trim().equals(etConfirmPassword.getText().toString().trim())) {
+                Toast.makeText(this, "Passwords do no match!", Toast.LENGTH_SHORT).show();
+                return;
             } else if (rgSex.getCheckedRadioButtonId() == -1) {
                 Toast.makeText(this, "Please choose your sex!", Toast.LENGTH_SHORT).show();
                 return;
